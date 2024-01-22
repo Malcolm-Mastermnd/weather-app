@@ -12,7 +12,7 @@ function WeekSelect() {
 
   return (
     <select
-      style={{ position: 'absolute', bottom: 0, left: 0 }}
+      style={{ position: 'fixed', bottom: 0, left: 0 }}
       defaultValue={initialWeek}
       onChange={handleChange}
     >
