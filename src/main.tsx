@@ -12,44 +12,53 @@ import Week8 from './weeks/week8/App.tsx';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './index.css';
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element:  <Week0 />,
+    },
+    {
+      path: "/week0",
+      element:  <Week0 />,
+    },
+    {
+      path: "/week1",
+      element:  <Week1 />,
+    },
+    {
+      path: "/week2",
+      element:  <Week2 />,
+    },
+    {
+      path: "/week3",
+      element:  <Week3 />,
+    },
+    {
+      path: "/week4",
+      element:  <Week4 />,
+    },
+    {
+      path: "/week5",
+      element:  <Week5 />,
+    },
+    {
+      path: "/week6",
+      element:  <Week6 />,
+    },
+    {
+      path: "/week7",
+      element:  <Week7 />,
+    },
+    {
+      path: "/week8",
+      element:  <Week8 />,
+    },
+  ],
   {
-    path: "/weather-app/week0",
-    element:  <Week0 />,
-  },
-  {
-    path: "/weather-app/week1",
-    element:  <Week1 />,
-  },
-  {
-    path: "/weather-app/week2",
-    element:  <Week2 />,
-  },
-  {
-    path: "/weather-app/week3",
-    element:  <Week3 />,
-  },
-  {
-    path: "/weather-app/week4",
-    element:  <Week4 />,
-  },
-  {
-    path: "/weather-app/week5",
-    element:  <Week5 />,
-  },
-  {
-    path: "/weather-app/week6",
-    element:  <Week6 />,
-  },
-  {
-    path: "/weather-app/week7",
-    element:  <Week7 />,
-  },
-  {
-    path: "/weather-app/week8",
-    element:  <Week8 />,
-  },
-]);
+    basename: '/weather-app',
+  }
+);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

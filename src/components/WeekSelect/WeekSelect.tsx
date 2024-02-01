@@ -4,10 +4,10 @@ function WeekSelect() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const initialWeek = location.pathname.split('/')[2] || 'week0';
+  const initialWeek = location.pathname.split('/')[1] || 'week0';
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    navigate(`/weather-app/${event.target.value}`)
+    navigate(`/${event.target.value}`)
   }
 
   return (
