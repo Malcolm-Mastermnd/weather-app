@@ -1,40 +1,47 @@
-import React from 'react';
+import FlexXBox from '../common/FlexXBox';
+import { Box } from '@mui/material';
+import ForecastCard from './ForecastCard/ForecastCard';
 
-type ForecastCardsStyles = {
-  root: React.CSSProperties,
-}
+interface ForecastCardsProps {}
 
-const divWithBorder: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  justifyContent: 'center',
-  alignItems: 'center',
-  border: '3px solid green',
-}
-
-const styles: ForecastCardsStyles = {
-  root: {
-    ...divWithBorder,
-    height: '400px',
-  },
-}
-
-interface ForecastCardsProps {
-  order: number;
-  excited: boolean;
-}
-
-function ForecastCards({
-  order,
-  excited,
-}: ForecastCardsProps) {
+function ForecastCards({}: ForecastCardsProps) {
   return (
-    <div style={styles.root}>
-      <div>Forecast Cards</div>
-      <div>{`Order that this will be worked on: ${order}`}</div>
-      <div>{`I am${excited ? '' : ' not'} excited to work on this part`}</div>
-    </div>
+    <Box width='100%'>
+      <FlexXBox justifyContent='space-between'>
+
+        <ForecastCard
+          dayOfTheWeek='Tuesday'
+          weatherCondition='Sunny'
+          lowTemp={65}
+          highTemp={80}
+        />
+        <ForecastCard
+          dayOfTheWeek='Wednesday'
+          weatherCondition='Partly Cloudy'
+          lowTemp={64}
+          highTemp={79}
+        />
+        <ForecastCard
+          dayOfTheWeek='Thursday'
+          weatherCondition='Cloudy'
+          lowTemp={70}
+          highTemp={85}
+        />
+        <ForecastCard
+          dayOfTheWeek='Friday'
+          weatherCondition='Thunderstormy'
+          lowTemp={62}
+          highTemp={81}
+        />
+        <ForecastCard
+          dayOfTheWeek='Saturday'
+          weatherCondition='Thunderstormy'
+          lowTemp={65}
+          highTemp={77}
+        />
+
+      </FlexXBox>
+    </Box>
   );
 }
 
