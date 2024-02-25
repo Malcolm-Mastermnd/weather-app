@@ -13,7 +13,7 @@ function TempuratureRange({
   return (
     <FlexXBox alignItems='center'>
       <Typography>{`${lowTemp}°F LO`}</Typography>
-      <Divider sx={{ background: 'white', margin: '0px 8px' }} orientation='vertical' />
+      <Divider sx={{ minHeight: '24px', borderColor: 'white', mx: 2 }} orientation='vertical' />
       <Typography>{`${highTemp}°F HI`}</Typography>
     </FlexXBox>
   );

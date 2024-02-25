@@ -1,11 +1,12 @@
 import FlexYBox from '../../common/FlexYBox';
 import { Card, Typography } from '@mui/material';
-import WeatherCondition, { WeatherConditionType } from '../../common/WeatherCondition';
+import WeatherCondition from '../../common/WeatherCondition';
 import TempuratureRange from '../../common/TempuratureRange';
+import { Condition } from '../../../types/weather-api.types';
 
 interface ForecastCardsProp {
   dayOfTheWeek: string;
-  weatherCondition: WeatherConditionType;
+  weatherCondition: Condition;
   lowTemp: number;
   highTemp: number;
 }
