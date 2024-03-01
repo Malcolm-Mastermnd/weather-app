@@ -1,20 +1,24 @@
 import { Divider, Typography } from '@mui/material';
 import FlexXBox from './FlexXBox';
+import { Temperature, TemperatureUnit } from '../../types/types';
+import { getTempDisplay } from '../utils/utils';
 
 interface TempuratureRangeProps {
-  lowTemp: number;
-  highTemp: number;
+  lowTemp: Temperature;
+  highTemp: Temperature;
+  temperatureUnit: TemperatureUnit;
 }
 
 function TempuratureRange({
   lowTemp,
   highTemp,
+  temperatureUnit,
 }: TempuratureRangeProps) {
   return (
     <FlexXBox alignItems='center'>
-      <Typography>{`${lowTemp}°F LO`}</Typography>
+      <Typography>{`${getTempDisplay(lowTemp, temperatureUnit)} LO`}</Typography>
       <Divider sx={{ minHeight: '24px', borderColor: 'white', mx: 2 }} orientation='vertical' />
-      <Typography>{`${highTemp}°F HI`}</Typography>
+      <Typography>{`${getTempDisplay(highTemp, temperatureUnit)} HI`}</Typography>
     </FlexXBox>
   );
 }

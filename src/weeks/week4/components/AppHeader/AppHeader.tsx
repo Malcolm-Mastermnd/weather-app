@@ -1,40 +1,22 @@
-import React from 'react';
+import { AppBar, Toolbar } from '@mui/material';
+import FlexXBox from '../common/FlexXBox';
+import HeaderLink from './HeaderLink/HeaderLink';
 
-type AppHeaderStyles = {
-  root: React.CSSProperties,
-}
+export const APP_HEADER_HEIGHT = 64;
 
-const divWithBorder: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  justifyContent: 'center',
-  alignItems: 'center',
-  border: '3px solid green',
-}
-
-const styles: AppHeaderStyles = {
-  root: {
-    ...divWithBorder,
-    height: '80px',
-  },
-}
-
-interface AppHeaderProps {
-  order: number;
-  excited: boolean;
-}
-
-function AppHeader({
-  order,
-  excited,
-}: AppHeaderProps) {
+function AppHeader() {
   return (
-    <div style={styles.root}>
-      <div>Header</div>
-      <div>{`Order that this will be worked on: ${order}`}</div>
-      <div>{`I am${excited ? '' : ' not'} excited to work on this part`}</div>
-    </div>
+    <AppBar sx={{ height: `${APP_HEADER_HEIGHT}px` }} position='fixed'>
+      <Toolbar>
+        <FlexXBox flexGrow={1} justifyContent='center' padding={3}>
+          <FlexXBox gap={4}>
+            <HeaderLink to='/week4/search' title='Search' />
+            <HeaderLink to='/week4/hometown' title='My Hometown' />
+            <HeaderLink to='/week4/favorites' title='My Favorites' />
+          </FlexXBox>
+        </FlexXBox>
+      </Toolbar>
+    </AppBar>
   );
 }
 

@@ -1,8 +1,14 @@
-import { Box } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import CurrentWeaherCard from '../CurrentWeatherCard/CurrentWeatherCard';
 import useAxios from 'axios-hooks';
 import { ForecastReturn } from '../../types/weather-api.types';
 import ForecastCards from '../ForecastCards/ForecastCards';
+import { useEffect, useState } from 'react';
+import FlexXBox from '../common/FlexXBox';
+import FlexYBox from '../common/FlexYBox';
+import { Temperature, TemperatureUnit } from '../../types/types';
+
+const FIVE_MINUTES = 5 * 60 * 1000;
 
 interface CityWeatherProps {
   cityName: string;
@@ -15,7 +21,9 @@ function CityWeather({
   isHometown,
   isFavorite,
 }: CityWeatherProps) {
-  const [{ data, loading, error }] = useAxios<ForecastReturn>({
+  const [temperatureUnit, setTempuratureUnit] = useState<TemperatureUnit>('F');
+
+  const [{ data, loading, error }, refetch] = useAxios<ForecastReturn>({
     url:'https://api.weatherapi.com/v1/forecast.json',
     params: {
       key: import.meta.env.VITE_WEATHER_API_KEY,
@@ -24,8 +32,39 @@ function CityWeather({
     },
   });
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (data) { refetch() }
+    }, FIVE_MINUTES);
+    return () => clearInterval(intervalId);
+  } , []);
+
+  const currentTemp: Temperature | undefined =
+    data ? {
+      fahrenheit: data.current.temp_f,
+      celcius: data.current.temp_c,
+    } : undefined;
+  
+  const lowTemp: Temperature | undefined =
+    data ? {
+      fahrenheit: data.forecast.forecastday[0]?.day.mintemp_f,
+      celcius: data.forecast.forecastday[0]?.day.mintemp_c,
+    } : undefined;
+
+  const highTemp: Temperature | undefined =
+    data ? {
+      fahrenheit: data.forecast.forecastday[0]?.day.maxtemp_f,
+      celcius: data.forecast.forecastday[0]?.day.maxtemp_c,
+    } : undefined;
+
   return (
-    <Box>
+    <FlexYBox gap={2}>
+      <FlexXBox justifyContent='flex-end'>
+        <ToggleButtonGroup value={temperatureUnit}>
+          <ToggleButton value='F' onClick={() => setTempuratureUnit('F')}>°F</ToggleButton>
+          <ToggleButton value='C' onClick={() => setTempuratureUnit('C')}>°C</ToggleButton>
+        </ToggleButtonGroup>
+      </FlexXBox>
       <CurrentWeaherCard
         isLoading={loading}
         isError={!!error}
@@ -33,18 +72,20 @@ function CityWeather({
         isHometown={isHometown}
         isFavorite={isFavorite}
         weatherCondition={data?.current.condition}
-        currentTemp={data?.current.temp_f}
-        lowTemp={data?.forecast.forecastday[0]?.day.mintemp_f}
-        highTemp={data?.forecast.forecastday[0]?.day.maxtemp_f}
+        currentTemp={currentTemp}
+        lowTemp={lowTemp}
+        highTemp={highTemp}
         timeZone={data?.location.tz_id}
+        temperatureUnit={temperatureUnit}
       />
       <ForecastCards
         isLoading={loading}
         isError={!!error}
         forecastDays={data?.forecast.forecastday}
         timeZone={data?.location.tz_id}
+        temperatureUnit={temperatureUnit}
       />
-    </Box>
+    </FlexYBox>
   );
 }
 
