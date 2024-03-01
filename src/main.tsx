@@ -11,9 +11,12 @@ import Week7 from './weeks/week7/App.tsx';
 import Week8 from './weeks/week8/App.tsx';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './index.css';
-import HometownPage from './weeks/week4/pages/HometownPage/HometownPage.tsx';
-import FavoritesPage from './weeks/week4/pages/FavoritesPage/FavoritesPage.tsx';
-import SearchPage from './weeks/week4/pages/SearchPage/SearchPage.tsx';
+import HometownPage4 from './weeks/week4/pages/HometownPage/HometownPage.tsx';
+import FavoritesPage4 from './weeks/week4/pages/FavoritesPage/FavoritesPage.tsx';
+import SearchPage4 from './weeks/week4/pages/SearchPage/SearchPage.tsx';
+import HometownPage5 from './weeks/week5/pages/HometownPage/HometownPage.tsx';
+import FavoritesPage5 from './weeks/week5/pages/FavoritesPage/FavoritesPage.tsx';
+import SearchPage5 from './weeks/week5/pages/SearchPage/SearchPage.tsx';
 
 const router = createBrowserRouter(
   [
@@ -43,25 +46,43 @@ const router = createBrowserRouter(
       children: [
         {
           index: true,
-          element: <SearchPage />,
+          element: <SearchPage4 />,
         },
         {
           path: "search",
-          element: <SearchPage />,
+          element: <SearchPage4 />,
         },
         {
           path: "hometown",
-          element: <HometownPage />,
+          element: <HometownPage4 />,
         },
         {
           path: "favorites",
-          element: <FavoritesPage />,
+          element: <FavoritesPage4 />,
         },
       ],
     },
     {
       path: "/week5",
       element:  <Week5 />,
+      children: [
+        {
+          index: true,
+          element: <SearchPage5 />,
+        },
+        {
+          path: "search",
+          element: <SearchPage5 />,
+        },
+        {
+          path: "hometown",
+          element: <HometownPage5 />,
+        },
+        {
+          path: "favorites",
+          element: <FavoritesPage5 />,
+        },
+      ],
     },
     {
       path: "/week6",
