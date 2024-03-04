@@ -11,6 +11,7 @@ import { Condition } from '../../types/weather-api.types';
 import { TemperatureUnit, Temperature } from '../../types/types';
 import { getTempDisplay } from '../utils/utils';
 import { useEffect, useState } from 'react';
+import { useToggle } from '../../hooks/useToggle';
 
 const ONE_SECOND = 1000;
 
@@ -41,16 +42,9 @@ function CurrentWeaherCard({
   timeZone,
   temperatureUnit,
 }: CurrentWeaherCardProps) {
-  const [isCurrenttlyHome, setIsCurrentlyHome] = useState<boolean>(initialIsHometown);
-  const [isCurrentlyFavorite, setIsCurrentlyFavorite] = useState<boolean>(initialIsFavorite);
+  const [isCurrentlyHometown, handleHometownButtonClick] = useToggle(initialIsHometown);
+  const [isCurrentlyFavorite, handleFavoriteButtonClick] = useToggle(initialIsFavorite);
   const [timeDisplay, setTimeDisplay] = useState<string>();
-
-  const handleHometownButtonClick = () => {
-    setIsCurrentlyHome((prev) => !prev);
-  }
-  const handleFavoriteButtonClick = () => {
-    setIsCurrentlyFavorite((prev) => !prev);
-  }
 
   useEffect(() => {
     if (timeZone) {
@@ -74,7 +68,7 @@ function CurrentWeaherCard({
           <Box>
             {/* Hometown Icon Button */}
             <IconButton onClick={handleHometownButtonClick}>
-              {isCurrenttlyHome ? <HomeIcon fontSize='large' /> : <HomeOutlineIcon fontSize='large' />}
+              {isCurrentlyHometown ? <HomeIcon fontSize='large' /> : <HomeOutlineIcon fontSize='large' />}
             </IconButton>
 
             {/* Favorite Icon Button */}
