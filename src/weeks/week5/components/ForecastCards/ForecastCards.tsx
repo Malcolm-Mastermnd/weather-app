@@ -2,14 +2,12 @@ import FlexXBox from '../common/FlexXBox';
 import { Box } from '@mui/material';
 import ForecastCard from './ForecastCard/ForecastCard';
 import { ForecastDay } from '../../types/weather-api.types';
-import { TemperatureUnit } from '../../types/types';
 
 interface ForecastCardsProps {
   forecastDays?: ForecastDay[];
   timeZone?: string;
   isLoading: boolean;
   isError: boolean;
-  temperatureUnit: TemperatureUnit;
 }
 
 function ForecastCards({
@@ -17,7 +15,6 @@ function ForecastCards({
   timeZone,
   isError,
   isLoading,
-  temperatureUnit,
 }: ForecastCardsProps) {
   if (isLoading) return <FlexXBox justifyContent='center'>Loading forecast...</FlexXBox>;
   if (isError) return <FlexXBox justifyContent='center'>Error getting forecast</FlexXBox>;
@@ -47,7 +44,6 @@ function ForecastCards({
               fahrenheit: day.day.maxtemp_f,
               celcius: day.day.maxtemp_c,
             }}
-            temperatureUnit={temperatureUnit}
           />
         ))}
       </FlexXBox>

@@ -6,8 +6,8 @@ function SearchPage() {
   return (
     <FlexYBox gap={6}>
       <SearchBox order={4} excited={false} />
-      <CityWeather cityName='Baltimore' isHometown />
-      <CityWeather cityName='San Diego' isFavorite />
+      <CityWeather cityName='Baltimore' />
+      <CityWeather cityName='San Diego' />
       <CityWeather cityName='New Orleans' />
     </FlexYBox>
   );

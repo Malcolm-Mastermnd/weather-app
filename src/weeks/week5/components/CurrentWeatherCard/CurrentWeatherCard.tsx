@@ -8,55 +8,54 @@ import FlexYBox from "../common/FlexYBox";
 import WeatherCondition from '../common/WeatherCondition';
 import TempuratureRange from '../common/TempuratureRange';
 import { Condition } from '../../types/weather-api.types';
-import { TemperatureUnit, Temperature } from '../../types/types';
+import { Temperature } from '../../types/types';
 import { getTempDisplay } from '../utils/utils';
-import { useEffect, useState } from 'react';
-import { useToggle } from '../../hooks/useToggle';
-
-const ONE_SECOND = 1000;
+import { useContext } from 'react';
+import { UserPreferencesContext } from '../../context/react-context/UserPreferencesContext';
+import { useHometownStore } from '../../context/zustand/UseHometown';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../context/redux/globalStore';
+import { addToFavorites, removeFromFavorites } from '../../context/redux/useFavoritesStore';
+import TimeDisplay from './TimeDisplay/TimeDisplay';
 
 interface CurrentWeaherCardProps {
   isLoading: boolean;
   isError: boolean;
   cityName: string;
-  isHometown?: boolean;
-  isFavorite?: boolean;
   weatherCondition?: Condition;
   currentTemp?: Temperature;
   lowTemp?: Temperature;
   highTemp?: Temperature;
   timeZone?: string;
-  temperatureUnit: TemperatureUnit;
 }
 
 function CurrentWeaherCard({
   isLoading,
   isError,
   cityName,
-  isHometown: initialIsHometown = false,
-  isFavorite: initialIsFavorite = false,
   weatherCondition,
   currentTemp,
   lowTemp,
   highTemp,
   timeZone,
-  temperatureUnit,
 }: CurrentWeaherCardProps) {
-  const [isCurrentlyHometown, handleHometownButtonClick] = useToggle(initialIsHometown);
-  const [isCurrentlyFavorite, handleFavoriteButtonClick] = useToggle(initialIsFavorite);
-  const [timeDisplay, setTimeDisplay] = useState<string>();
+  const { temperatureUnit } = useContext(UserPreferencesContext);
 
-  useEffect(() => {
-    if (timeZone) {
-      const intervalId = setInterval(() => {
-        setTimeDisplay(new Date().toLocaleTimeString(
-          'en-US',
-          { timeZone, hour: 'numeric', minute: 'numeric', second: 'numeric'},
-        ));
-      }, ONE_SECOND);
-      return () => clearInterval(intervalId);
+  // Hometown context managed by zustand
+  const { hometown, setHometown } = useHometownStore();
+  const isHometown = hometown === cityName;
+
+  // Favorites context managed by redux
+  const favorites = useSelector((state: RootState) => state.favorites.value);
+  const dispatch = useDispatch();
+  const isFavorite = favorites.includes(cityName);
+  const handleFavoriteButtonClick = () => {
+    if (isFavorite) {
+      dispatch(removeFromFavorites(cityName));
+    } else {
+      dispatch(addToFavorites(cityName));
     }
-  } , [timeZone]);
+  }
 
   return (
     <Card sx={{ width: '100%' }} elevation={5}>
@@ -67,13 +66,13 @@ function CurrentWeaherCard({
           <Typography variant='h3'>{cityName}</Typography>
           <Box>
             {/* Hometown Icon Button */}
-            <IconButton onClick={handleHometownButtonClick}>
-              {isCurrentlyHometown ? <HomeIcon fontSize='large' /> : <HomeOutlineIcon fontSize='large' />}
+            <IconButton onClick={() => setHometown(isHometown ? undefined : cityName)}>
+              {isHometown ? <HomeIcon fontSize='large' /> : <HomeOutlineIcon fontSize='large' />}
             </IconButton>
 
             {/* Favorite Icon Button */}
             <IconButton onClick={handleFavoriteButtonClick}>
-              {isCurrentlyFavorite ? <StarIcon fontSize='large' /> : <StarOutlineIcon fontSize='large' />}
+              {isFavorite ? <StarIcon fontSize='large' /> : <StarOutlineIcon fontSize='large' />}
             </IconButton>
           </Box>
         </FlexXBox>
@@ -95,12 +94,11 @@ function CurrentWeaherCard({
               <TempuratureRange
                 lowTemp={lowTemp}
                 highTemp={highTemp}
-                temperatureUnit={temperatureUnit}
               />
             </FlexYBox>
 
             {/* Time */}
-            <Typography variant='h5'>{timeDisplay}</Typography>
+            <TimeDisplay timeZone={timeZone} />
           </FlexXBox>
         )}
       </FlexYBox>

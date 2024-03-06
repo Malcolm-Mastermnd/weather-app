@@ -1,19 +1,21 @@
 import { Divider, Typography } from '@mui/material';
 import FlexXBox from './FlexXBox';
-import { Temperature, TemperatureUnit } from '../../types/types';
+import { Temperature } from '../../types/types';
 import { getTempDisplay } from '../utils/utils';
+import { useContext } from 'react';
+import { UserPreferencesContext } from '../../context/react-context/UserPreferencesContext';
 
 interface TempuratureRangeProps {
   lowTemp: Temperature;
   highTemp: Temperature;
-  temperatureUnit: TemperatureUnit;
 }
 
 function TempuratureRange({
   lowTemp,
   highTemp,
-  temperatureUnit,
 }: TempuratureRangeProps) {
+  const { temperatureUnit } = useContext(UserPreferencesContext);
+
   return (
     <FlexXBox alignItems='center'>
       <Typography>{`${getTempDisplay(lowTemp, temperatureUnit)} LO`}</Typography>

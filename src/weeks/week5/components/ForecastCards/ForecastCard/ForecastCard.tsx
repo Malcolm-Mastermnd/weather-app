@@ -3,14 +3,13 @@ import { Card, Typography } from '@mui/material';
 import WeatherCondition from '../../common/WeatherCondition';
 import TempuratureRange from '../../common/TempuratureRange';
 import { Condition } from '../../../types/weather-api.types';
-import { Temperature, TemperatureUnit } from '../../../types/types';
+import { Temperature } from '../../../types/types';
 
 interface ForecastCardsProp {
   dayOfTheWeek: string;
   weatherCondition: Condition;
   lowTemp: Temperature;
   highTemp: Temperature;
-  temperatureUnit: TemperatureUnit;
 }
 
 function ForecastCard({
@@ -18,7 +17,6 @@ function ForecastCard({
   weatherCondition,
   lowTemp,
   highTemp,
-  temperatureUnit
 }: ForecastCardsProp) {
   return (
     <Card elevation={5}>
@@ -28,7 +26,6 @@ function ForecastCard({
         <TempuratureRange
           lowTemp={lowTemp}
           highTemp={highTemp}
-          temperatureUnit={temperatureUnit}
         />
       </FlexYBox>
     </Card>
