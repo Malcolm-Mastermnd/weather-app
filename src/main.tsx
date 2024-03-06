@@ -17,6 +17,9 @@ import SearchPage4 from './weeks/week4/pages/SearchPage/SearchPage.tsx';
 import HometownPage5 from './weeks/week5/pages/HometownPage/HometownPage.tsx';
 import FavoritesPage5 from './weeks/week5/pages/FavoritesPage/FavoritesPage.tsx';
 import SearchPage5 from './weeks/week5/pages/SearchPage/SearchPage.tsx';
+import HometownPage6 from './weeks/week6/pages/HometownPage/HometownPage.tsx';
+import FavoritesPage6 from './weeks/week6/pages/FavoritesPage/FavoritesPage.tsx';
+import SearchPage6 from './weeks/week6/pages/SearchPage/SearchPage.tsx';
 
 const router = createBrowserRouter(
   [
@@ -87,6 +90,24 @@ const router = createBrowserRouter(
     {
       path: "/week6",
       element:  <Week6 />,
+      children: [
+        {
+          index: true,
+          element: <SearchPage6 />,
+        },
+        {
+          path: "search",
+          element: <SearchPage6 />,
+        },
+        {
+          path: "hometown",
+          element: <HometownPage6 />,
+        },
+        {
+          path: "favorites",
+          element: <FavoritesPage6 />,
+        },
+      ],
     },
     {
       path: "/week7",
