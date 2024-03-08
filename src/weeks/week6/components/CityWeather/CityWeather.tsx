@@ -5,16 +5,21 @@ import ForecastCards from '../ForecastCards/ForecastCards';
 import { useEffect } from 'react';
 import FlexYBox from '../common/FlexYBox';
 import { Temperature } from '../../types/types';
+import { useToggle } from '../../hooks/useToggle';
 
 const FIVE_MINUTES = 5 * 60 * 1000;
 
 interface CityWeatherProps {
   cityName: string;
+  initialShowForecast?: boolean;
 }
 
 function CityWeather({
   cityName,
+  initialShowForecast = true,
 }: CityWeatherProps) {
+  const [showForecast, toggleShowForecast]= useToggle(initialShowForecast);
+
   const [{ data, loading, error }, refetch] = useAxios<ForecastReturn>({
     url:'https://api.weatherapi.com/v1/forecast.json',
     params: {
@@ -60,13 +65,17 @@ function CityWeather({
         lowTemp={lowTemp}
         highTemp={highTemp}
         timeZone={data?.location.tz_id}
+        showForecast={showForecast}
+        onForecastToggle={toggleShowForecast}
       />
-      <ForecastCards
-        isLoading={loading}
-        isError={!!error}
-        forecastDays={data?.forecast.forecastday}
-        timeZone={data?.location.tz_id}
-      />
+      {showForecast && (
+        <ForecastCards
+          isLoading={loading}
+          isError={!!error}
+          forecastDays={data?.forecast.forecastday}
+          timeZone={data?.location.tz_id}
+        />
+      )}
     </FlexYBox>
   );
 }

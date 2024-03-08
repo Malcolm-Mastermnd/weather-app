@@ -1,8 +1,4 @@
-import HomeIcon from '@mui/icons-material/Home';
-import HomeOutlineIcon from '@mui/icons-material/HomeOutlined';
-import StarIcon from '@mui/icons-material/Star';
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import { Box, Card, CircularProgress, IconButton, Typography } from "@mui/material";
+import { Box, Card, CardActions, CircularProgress, IconButton, Typography } from "@mui/material";
 import FlexXBox from "../common/FlexXBox";
 import FlexYBox from "../common/FlexYBox";
 import WeatherCondition from '../common/WeatherCondition';
@@ -12,11 +8,11 @@ import { Temperature } from '../../types/types';
 import { getTempDisplay } from '../utils/utils';
 import { useContext } from 'react';
 import { UserPreferencesContext } from '../../context/react-context/UserPreferencesContext';
-import { useHometownStore } from '../../context/zustand/UseHometown';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../context/redux/globalStore';
-import { addToFavorites, removeFromFavorites } from '../../context/redux/useFavoritesStore';
 import TimeDisplay from './TimeDisplay/TimeDisplay';
+import FavoriteToggleButton from '../common/FavoriteToggleButton';
+import HometownToggleButton from '../common/HometownToggleButton';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 interface CurrentWeaherCardProps {
   isLoading: boolean;
@@ -27,6 +23,8 @@ interface CurrentWeaherCardProps {
   lowTemp?: Temperature;
   highTemp?: Temperature;
   timeZone?: string;
+  showForecast: boolean;
+  onForecastToggle: () => void;
 }
 
 function CurrentWeaherCard({
@@ -38,24 +36,10 @@ function CurrentWeaherCard({
   lowTemp,
   highTemp,
   timeZone,
+  showForecast,
+  onForecastToggle,
 }: CurrentWeaherCardProps) {
   const { temperatureUnit } = useContext(UserPreferencesContext);
-
-  // Hometown context managed by zustand
-  const { hometown, setHometown } = useHometownStore();
-  const isHometown = hometown === cityName;
-
-  // Favorites context managed by redux
-  const favorites = useSelector((state: RootState) => state.favorites.value);
-  const dispatch = useDispatch();
-  const isFavorite = favorites.includes(cityName);
-  const handleFavoriteButtonClick = () => {
-    if (isFavorite) {
-      dispatch(removeFromFavorites(cityName));
-    } else {
-      dispatch(addToFavorites(cityName));
-    }
-  }
 
   return (
     <Card sx={{ width: '100%' }} elevation={5}>
@@ -65,15 +49,8 @@ function CurrentWeaherCard({
         <FlexXBox p={2} justifyContent='space-between'>
           <Typography variant='h3'>{cityName}</Typography>
           <Box>
-            {/* Hometown Icon Button */}
-            <IconButton onClick={() => setHometown(isHometown ? undefined : cityName)}>
-              {isHometown ? <HomeIcon fontSize='large' /> : <HomeOutlineIcon fontSize='large' />}
-            </IconButton>
-
-            {/* Favorite Icon Button */}
-            <IconButton onClick={handleFavoriteButtonClick}>
-              {isFavorite ? <StarIcon fontSize='large' /> : <StarOutlineIcon fontSize='large' />}
-            </IconButton>
+            <HometownToggleButton cityName={cityName} iconProps={{ fontSize: 'large' }} />
+            <FavoriteToggleButton cityName={cityName} iconProps={{ fontSize: 'large' }} />
           </Box>
         </FlexXBox>
 
@@ -102,6 +79,15 @@ function CurrentWeaherCard({
           </FlexXBox>
         )}
       </FlexYBox>
+
+      {/* Footer */}
+      <CardActions>
+        <FlexXBox flexGrow={1} justifyContent='flex-end'>
+          <IconButton onClick={onForecastToggle}>
+            {showForecast ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+          </IconButton>
+        </FlexXBox>
+      </CardActions>
     </Card>
   )
 }

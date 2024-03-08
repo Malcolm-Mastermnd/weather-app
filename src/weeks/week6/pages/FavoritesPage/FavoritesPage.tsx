@@ -30,7 +30,7 @@ function FavoritesPage() {
         </FlexYBox>
       ): (
         favorites.map((cityName) => (
-          <CityWeather key={cityName} cityName={cityName} />
+          <CityWeather key={cityName} cityName={cityName} initialShowForecast={false} />
         ))
       )}
     </FlexYBox>

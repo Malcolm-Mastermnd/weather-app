@@ -133,3 +133,13 @@ export interface ForecastReturn {
       forecastday: ForecastDay[];
   }
 }
+
+export interface SearchedCity {
+  id: number;
+  name: string;
+  region: string;
+  country: string;
+  lat: number;
+  lon: number;
+  url: string;
+}
