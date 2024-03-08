@@ -20,6 +20,12 @@ import SearchPage5 from './weeks/week5/pages/SearchPage/SearchPage.tsx';
 import HometownPage6 from './weeks/week6/pages/HometownPage/HometownPage.tsx';
 import FavoritesPage6 from './weeks/week6/pages/FavoritesPage/FavoritesPage.tsx';
 import SearchPage6 from './weeks/week6/pages/SearchPage/SearchPage.tsx';
+import HometownPage7 from './weeks/week7/pages/HometownPage/HometownPage.tsx';
+import FavoritesPage7 from './weeks/week7/pages/FavoritesPage/FavoritesPage.tsx';
+import SearchPage7 from './weeks/week7/pages/SearchPage/SearchPage.tsx';
+import HometownPage8 from './weeks/week8/pages/HometownPage/HometownPage.tsx';
+import FavoritesPage8 from './weeks/week8/pages/FavoritesPage/FavoritesPage.tsx';
+import SearchPage8 from './weeks/week8/pages/SearchPage/SearchPage.tsx';
 
 const router = createBrowserRouter(
   [
@@ -112,10 +118,46 @@ const router = createBrowserRouter(
     {
       path: "/week7",
       element:  <Week7 />,
+      children: [
+        {
+          index: true,
+          element: <SearchPage7 />,
+        },
+        {
+          path: "search",
+          element: <SearchPage7 />,
+        },
+        {
+          path: "hometown",
+          element: <HometownPage7 />,
+        },
+        {
+          path: "favorites",
+          element: <FavoritesPage7 />,
+        },
+      ],
     },
     {
       path: "/week8",
       element:  <Week8 />,
+      children: [
+        {
+          index: true,
+          element: <SearchPage8 />,
+        },
+        {
+          path: "search",
+          element: <SearchPage8 />,
+        },
+        {
+          path: "hometown",
+          element: <HometownPage8 />,
+        },
+        {
+          path: "favorites",
+          element: <FavoritesPage8 />,
+        },
+      ],
     },
   ],
   {
